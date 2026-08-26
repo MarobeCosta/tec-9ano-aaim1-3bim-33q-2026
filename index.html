@@ -81,6 +81,7 @@ p{font-size:17px;line-height:1.55;margin-bottom:10px}
 
 /* ---------- cards ---------- */
 .cverde{background:#EAF6EC;border-left:6px solid var(--ok);border-radius:0 14px 14px 0;padding:16px 18px;margin-bottom:12px}
+.afirma{background:#fff;border:2px solid var(--roxo);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:17px;line-height:1.5}
 .croxo{background:#F3E9F6;border-left:6px solid var(--roxo);border-radius:0 14px 14px 0;padding:16px 18px;margin-bottom:12px}
 .claranja{background:#FDF0E3;border-left:6px solid var(--d4);border-radius:0 14px 14px 0;padding:12px 16px;margin-bottom:12px;font-size:16px}
 .cazul{background:#E8F0F8;border-left:6px solid #2E5C8A;border-radius:0 14px 14px 0;padding:12px 16px;margin-bottom:12px;font-size:16px}
@@ -123,7 +124,10 @@ p{font-size:17px;line-height:1.55;margin-bottom:10px}
 .sc-l.ctrl{background:var(--sc-ctrl)}
 .sc-l.sens{background:var(--sc-sens)}
 .sc-l.look{background:var(--sc-look)}
-.sc-l.evt{background:var(--sc-evt);border-radius:9px 9px 9px 9px}
+.sc-l.evt{background:var(--sc-evt);border-radius:9px;color:#3B2C00;text-shadow:none}
+.sc-l.ctrl{color:#3B2200}
+.sc-l.op{background:var(--sc-op);color:#12330F}
+.sc-l.evt .sc-campo,.sc-l.ctrl .sc-campo{color:#333}
 .sc-campo{background:#fff;color:#333;border-radius:12px;padding:3px 11px;font-weight:600;font-size:15px}
 .sc-num{background:#fff;color:#333;border-radius:50px;padding:3px 11px;font-weight:600;font-size:15px}
 .sc-oval{border-radius:50px;padding:3px 12px;font-weight:700;font-size:15px}
@@ -326,7 +330,7 @@ p{font-size:17px;line-height:1.55;margin-bottom:10px}
 /* ==================== MODO ==================== */
 const MODO_TESTE = false;
 const UNIDADE = "Lógica de programação: primeiros passos com Python";
-const VERSAO = "V.04.01";
+const VERSAO = "V.05.02";
 /* ---- selo de conferência · dificulta adulterar o placar ---- */
 function hashTexto(s){
   let h=5381;
@@ -1075,6 +1079,18 @@ const MASLOW=[
  {n:3,cod:"M3",nome:"Pertencimento",cor:"#E07B2C"},
  {n:2,cod:"M2",nome:"Segurança",cor:"#4A8C3F"},
  {n:1,cod:"M1",nome:"Fisiológicas",cor:"#2E5C8A"}];
+const NAV_DEG={
+ D01:{n:"NAV.01",nome:"RECONHECER",emo:"🧙",cor:"#2E5C8A",
+      err:"as erradas são absurdas ou impossíveis, mas saem das alternativas da prova"},
+ D02:{n:"NAV.02",nome:"PRATICAR",emo:"🎪",cor:"#4A8C3F",
+      err:"as erradas são exageradas, porém plausíveis dentro do próprio card"},
+ D03:{n:"NAV.03",nome:"REUNIR",emo:"🧩",cor:"#F0C419",
+      err:"as erradas são erros de colega, do tipo que aparece na aula"},
+ D04:{n:"NAV.04",nome:"APLICAR",emo:"⚙️",cor:"#E07B2C",
+      err:"as erradas são erros técnicos reais, que acontecem de verdade"},
+ D05:{n:"NAV.OF",nome:"ESPELHAR",emo:"📄",cor:"#212121",
+      err:"são as alternativas da prova, sem alterar"}
+};
 const NAV_DERIVADA={num:"NAV.07",nome:"DESCONSTRUIR",cor:"#9C27B0"};
 const NAV_OFICIAL ={num:"NAV.OF",nome:"ESPELHAR",     cor:"#212121"};
 
@@ -1286,6 +1302,9 @@ function abrirLista(){
       pil+='<span class="pill cat">tema '+BANCO[r.qi].ordem+'</span>';
       const mp=MAPA_DEG[DEGRAUS[r.deg].cod];
       if(mp) pil+='<span class="pill cat">'+wCurto(DEGRAUS[r.deg].cod)+' · Polya '+mp.polya+'</span>';
+      const nv=NAV_DEG[DEGRAUS[r.deg].cod];
+      if(nv) pil+='<span class="pill" style="border-color:'+nv.cor+';color:'+nv.cor+'">'+
+             nv.emo+' '+nv.n+' '+nv.nome+'</span>';
       if(r.deg!=="d5"){
         pil+='<span class="pill" style="background:'+d.hex+';color:#fff;border-color:'+d.hex+'">'+
              d.cod+' · '+d.nome+'</span>';
@@ -1562,6 +1581,12 @@ function cartoes(q,r){
       h+='<div class="bl" style="background:#2E5C8A;opacity:'+(aq?1:.45)+'"><b>'+p.n+'</b> '+
          p.nome+'<span style="margin-left:auto;font-weight:600">'+p.o+'</span></div>';
     });
+    const nvd=NAV_DEG[d.cod];
+    if(nvd) h+='<h3 style="margin-top:14px">NAV deste degrau</h3>'+
+       '<div class="pir" style="background:'+nvd.cor+';width:100%;text-align:left">'+nvd.emo+' <b>'+
+       nvd.n+'</b> · '+nvd.nome+'</div>'+
+       '<p style="font-size:16px">Como são as alternativas erradas aqui: '+nvd.err+'. '+
+       'Em todos os degraus elas continuam ligadas às alternativas da questão oficial.</p>';
     h+='<h3 style="margin-top:14px">Técnica de verificação (CFU)</h3>'+
        '<div class="pir" style="background:#1F6F5C;width:100%;text-align:left"><b>'+cfu.t+'</b> · '+
        cfu.d+'</div>'+
@@ -1632,6 +1657,28 @@ function sequenciaDePares(deg,chave){
   CACHE_PARES[chave]=seq;
   return seq;
 }
+/* ---- a questao oficial tambem vira verdadeiro ou falso ----
+   Na REVISAO nunca existe A, B, C ou D. Quando o card oficial tem quatro
+   alternativas, o motor mostra UMA delas como afirmacao e pergunta se ela
+   e verdadeira ou falsa. A cada tentativa entra outra alternativa. */
+const CACHE_VF={};
+function parOficialVF(deg,t,qi){
+  if(deg.alts.length<=2) return {alts:deg.alts.slice(),cert:deg.cert,afirma:null};
+  const ch="vf_"+qi;
+  if(!CACHE_VF[ch]){
+    const ordem=[deg.cert];
+    deg.alts.forEach(function(a,i){ if(i!==deg.cert) ordem.push(i) });
+    // alterna verdadeira e falsa ao longo das tentativas
+    const seq=[ordem[0],ordem[1],ordem[0],ordem[2],ordem[0],ordem[3]].filter(function(x){return x!==undefined});
+    CACHE_VF[ch]=seq;
+  }
+  const seq=CACHE_VF[ch];
+  const idx=seq[(t-1)%seq.length];
+  const ehCerta=(idx===deg.cert);
+  const alts=(Math.random()<0.5)?["Verdadeira.","Falsa."]:["Falsa.","Verdadeira."];
+  const pos=alts.indexOf(ehCerta?"Verdadeira.":"Falsa.");
+  return {alts:alts,cert:pos,afirma:deg.alts[idx]};
+}
 function parDaTentativa(deg,t,chave){
   const seq=sequenciaDePares(deg,chave||"x");
   const p=seq[(t-1)%seq.length];
@@ -1663,7 +1710,7 @@ function telaPergunta(r){
   const q=BANCO[r.qi],d=degrauDaTela(r),deg=q[r.deg];
   respondeuAgora=false;
   if(AJ.perg!==r.n){ AJ={trilha:null,pos:0,fim:false,lidas:[],perg:r.n} }
-  parAtual=(r.deg==="d5")?{alts:deg.alts.slice(),cert:deg.cert}:parDaTentativa(deg,tentAtual,r.qi+"_"+r.deg);
+  parAtual=(r.deg==="d5")?parOficialVF(deg,tentAtual,r.qi):parDaTentativa(deg,tentAtual,r.qi+"_"+r.deg);
 
   let h='<div class="card">';
   const posD=DEGRAUS[r.deg];   // posição no tema: D03, D04, D05 (ou D01/D02 na discursiva)
@@ -1688,7 +1735,12 @@ function telaPergunta(r){
        return '<span class="gchip" onclick="abrirG('+BANCO.indexOf(q)+','+i+')">📖 '+g.t+'</span>'}).join("")+'</div>';
   h+='</div>';
 
-  if(r.deg==="d5") h+='<div class="croxo"><h3>Pergunta final deste tema</h3><p>'+deg.p+'</p></div>';
+  if(r.deg==="d5"){
+    h+='<div class="croxo"><h3>Pergunta final deste tema</h3><p>'+deg.p+'</p>';
+    if(parAtual.afirma)
+      h+='<div class="afirma"><b>Afirmação para julgar:</b><br>'+parAtual.afirma+'</div>';
+    h+='</div>';
+  }
   h+='<div class="claranja">💡 '+((r.deg==="d5"&&q.d5.dica)?q.d5.dica:(r.deg==="d5"&&q.disc?
       "Na prova você escreve esta resposta com as suas palavras. A resposta completa traz o NOME de cada técnica e o MOTIVO de cada uma.":
       d.dica))+'</div>';
@@ -1696,8 +1748,9 @@ function telaPergunta(r){
   if(r.deg!=="d5") h+='<h3 style="margin-top:14px">'+deg.p+'</h3>';
 
   h+='<div id="alts">'+parAtual.alts.map(function(a,i){
+       const marca=(a==="Verdadeira."?"✔":(a==="Falsa."?"✘":String.fromCharCode(65+i)+")"));
        return '<button class="alt" id="alt'+i+'" onclick="responder('+i+')"><span class="let">'+
-              String.fromCharCode(65+i)+')</span> '+a+'</button>'}).join("")+'</div>';
+              marca+'</span> '+a+'</button>'}).join("")+'</div>';
   h+='<div id="pos"></div><div id="ajuda">'+blocoAjuda(r)+'</div>'+
      '<div id="chamada"></div>'+cartoes(q,r)+'</div>';
   document.getElementById("palco").innerHTML=h;
