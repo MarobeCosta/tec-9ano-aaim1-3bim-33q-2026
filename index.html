@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  ARTEFATO   NAV07REV-9ANO-V1124-33Q
+  ARTEFATO   NAV07REV-9ANO-V1135-33Q
   TIPO       ESTUDANTE
   NO         26.08.24=NAV.07-REV_AAIM_6-9ano_002_prov
   CHAT       frag. 359c8b75
-  CLD        057
+  CLD        064
   GERADO EM  02/09/2026
-  MOTOR      motor-nav07rev V.11.24
+  MOTOR      motor-nav07rev V.11.27 · base V.11.26 do nó antecessor
   AUDITORIA  auditoria jsdom · todas as telas · aprovado
   PARIDADE   banco 4+4 · 240 degraus
   PUBLICADO  a preencher
@@ -199,11 +199,12 @@ p{font-size:17px;line-height:1.55;margin-bottom:10px}
 .mas.duas b{font-size:16px}
 .mas.duas span{font-size:15px;font-weight:600;opacity:.95}
 .mas{margin:0 auto 4px;color:#fff;border-radius:8px;padding:7px 10px;text-align:center;font-size:16px;font-weight:800}
-.gridq{display:grid;grid-template-columns:1fr 330px;gap:18px;align-items:start}
+.gridq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,330px);gap:18px;align-items:start}
 .col-pri{display:flex;flex-direction:column}
-.col-lat{display:flex;flex-direction:column;gap:12px;position:sticky;top:70px}
-.col-lat{min-width:0;overflow:hidden}
-.cardlat{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+.col-lat{display:flex;flex-direction:column;gap:12px;position:sticky;top:70px;
+  min-width:0;max-width:100%;overflow:visible}
+
+.cardlat{max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;word-break:break-word}
 .cardlat pre,.cardlat code{white-space:pre-wrap;overflow-x:auto;max-width:100%}
 .cardlat .tchip{white-space:normal}
 background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 8px 30px rgba(107,75,156,.18);
@@ -469,8 +470,13 @@ background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 8px 30px rgba(
 .tchip.t-cmd{border-bottom-color:#FFAB19;background:#FFF6E5}
 .tchip.t-conc{border-bottom-color:#2E5C8A;background:#EAF1F8}
 .tchip.t-enun{border-bottom-color:#2E6029;background:#EAF6EC}
-.legtipo{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0 8px}
+.legtipo{display:none}
 .lt{font-size:14px;font-weight:800;border-radius:8px;padding:2px 8px;border-bottom:3px solid}
+.glosgrupo{margin-bottom:9px}
+.gg-t{font-size:14px;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+  border-left:5px solid;padding-left:8px;margin-bottom:5px}
+.gg-l{display:flex;flex-direction:column;gap:4px}
+.gg-l .tchip{display:block;width:100%;text-align:left;box-sizing:border-box;white-space:normal}
 .tipoterm{display:inline-block;border:2px solid;border-radius:20px;padding:3px 13px;
   font-size:15px;font-weight:900;margin-bottom:10px}
 .tchip.obrig{background:#FFF3CD;border-bottom-color:#C79A18;color:#7A5C00;
@@ -937,6 +943,75 @@ background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 8px 30px rgba(
 
   @media (max-width:520px){ .ja-combo{font-size:21px;} .ja-nota b{font-size:46px;} }
   @media (prefers-reduced-motion:reduce){ #ja-raiz *{transition:none !important;} }
+.secab{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.07);
+  padding:18px 20px;margin-bottom:14px;border-top:6px solid var(--cs,#7B2D8E)}
+.secab>.sect{font-size:15px;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+  color:var(--cs,#7B2D8E);margin-bottom:10px;display:block}
+.aba.aj.trancada{opacity:.55;cursor:not-allowed;filter:grayscale(.35)}
+.aba.aj.fim{position:relative}
+
+/* ===== V.11.30 · contraste de bordas e ordem da barra ===== */
+/* 1 · relogio no comeco da linha 2, colado no cronometro */
+.chip#stHora{order:-1 !important}
+#cronoBox{order:0}
+
+/* 2 · a pergunta final do tema nunca se confunde com a fala do colega */
+.croxo{border:3px solid #B83D3D !important;border-left:9px solid #B83D3D !important;
+  background:#FDF1F3 !important;border-radius:14px !important}
+.croxo h3{color:#B83D3D !important}
+.cfala{border:3px solid #6B4B9C !important;border-left:9px solid #6B4B9C !important;border-radius:14px !important}
+
+/* 3 · nenhuma borda fina nem apagada na tela 1 */
+.cardr{border-width:4px !important}
+.secab{border:3px solid var(--cs,#7B2D8E);border-top-width:8px}
+.campo input{border-width:3px !important;border-color:#8FA3B5 !important}
+.turmabtn{border-width:3px !important}
+.lt{border-width:3px !important}
+
+/* 4 · a pastilha do glossario tem a largura da palavra */
+.gg-l{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.gg-l .tchip{display:inline-block !important;width:auto !important;max-width:100%;
+  text-align:left;box-sizing:border-box;white-space:normal;
+  border:2px solid !important;border-radius:9px !important;padding:3px 10px !important}
+.gg-t{border-left-width:7px !important;font-size:15px}
+.cardlat{border-width:3px !important}
+.cardlat .tchip{white-space:normal}
+
+/* ===== V.11.31 · escolha da aula em duas linhas ===== */
+.btn.aulabt{display:flex;flex-direction:column;gap:5px;align-items:stretch;text-align:left;padding:12px 15px}
+.btn.aulabt .al-1{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:17px;font-weight:900}
+.btn.aulabt .al-cad{font-size:17px;opacity:.95}
+.btn.aulabt .al-2{display:flex;flex-wrap:wrap;gap:6px}
+.btn.aulabt .al-p{background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.55);
+  border-radius:9px;padding:2px 9px;font-size:14px;font-weight:800}
+.btn.aulabt.fechada{opacity:.92}
+
+/* ===== V.11.32 · cards de seção da tela 1 no padrão FAÇA ===== */
+.secab{background:var(--csbg,#F7F3FB) !important;border:3px solid var(--cs,#7B2D8E);
+  border-top-width:8px;border-radius:16px;padding:20px 22px;margin-bottom:16px}
+.secab>.sect{display:flex;align-items:center;gap:11px;
+  font-size:20px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--cs,#7B2D8E);margin-bottom:12px;line-height:1.15}
+.secab>.sect .secn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;
+  background:var(--cs,#7B2D8E);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:900;letter-spacing:0;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+
+/* ===== V.11.33 · subseções numeradas dentro do card ===== */
+.subn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:28px;height:28px;border-radius:50%;margin-right:9px;
+  background:var(--cs2,#B79BD1);color:#fff;font-size:14px;font-weight:900;letter-spacing:0;
+  box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.campo label{display:flex;align-items:center}
+.subt{display:flex;align-items:center;font-size:16px;font-weight:900;margin-bottom:7px;
+  color:var(--cs,#7B2D8E)}
+
+/* ===== V.11.34 · HGov-045 · alertas 1 a 4 ===== */
+.secab>.sect .secn{width:38px;height:38px;font-size:20px}
+.subn{width:30px;height:30px;font-size:15px}      /* alerta 1 · nunca abaixo do piso */
+.secn,.subn{cursor:default;user-select:none}       /* alerta 2 · circulo nao e clicavel */
+
+.dicanome{font-size:15px;color:#4A5C66;margin:-2px 0 7px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -2263,7 +2338,7 @@ const MODO_TESTE = false;
 const UNIDADE = "Lógica de programação: primeiros passos com Python";
 const NO_PROV = "26.08.24=NAV.07-REV_AAIM_6-9ano_002_prov";
 const LINK_PROV = "https://claude.ai/chat/359c8b75-e4f4-42b6-a186-d0a41a8a9507";
-const VERSAO = "V.11.24";
+const VERSAO = "V.11.35";
 /* ---- selo de conferência · dificulta adulterar o placar ---- */
 function hashTexto(s){
   let h=5381;
@@ -3024,6 +3099,16 @@ function retomar(){
   estudante=p.estudante; turma=p.turma; chamadaNum=p.chamada||"";
   genero=generoDoNome(estudante); registro=p.registro||{};
   tempoAcum=0; tempoDesde=Date.now();
+  // o roteiro pode ter mudado de tamanho entre versões: em vez de jogar
+  // no fim, leva para a primeira pergunta que ele ainda não respondeu
+  if(p.iTela==null || p.iTela>=roteiro.length){
+    let alvo=-1;
+    for(let k=0;k<roteiro.length;k++){
+      const x=roteiro[k];
+      if(x.t==="perg" && !registro[x.n]){ alvo=k; break }
+    }
+    p.iTela = (alvo>=0) ? alvo : roteiro.length-1;
+  }
   RODADA=p.rodada||1; saidasTC=p.saidas||0;
   horaInicio=new Date(p.inicio||Date.now());
   iTela=p.iTela||0; tentAtual=1;
@@ -3167,7 +3252,11 @@ function pintarRodape(){
       '<button class="btn" onclick="voltarOnde()">Voltar para onde eu estava · tela '+
       (VOLTAR_PARA+1)+'</button></div>');
   }
-  volta.disabled = !(MODO_TESTE || VOLTAR_PARA!=null || MODO_CONSULTA) || iTela===0;
+  // voltar sempre funciona para telas que não são pergunta por responder
+  const rAnt=roteiro[iTela-1];
+  const podeVoltar = iTela>0 && rAnt && (MODO_TESTE || VOLTAR_PARA!=null || MODO_CONSULTA ||
+                     rAnt.t!=="perg" || !!registro[rAnt.n]);
+  volta.disabled = !podeVoltar;
   if(VOLTAR_PARA!=null) volta.onclick=voltarOnde;
   const ch=document.getElementById("chamada");
   if(ch) ch.innerHTML=chamadaHTML();
@@ -3189,17 +3278,18 @@ function pastilha(forma,cor,txt){
          '<span class="forma">'+forma+'</span>'+txt+'</span>';
 }
 function legendaPastilhas(){
-  let h='<div class="legend"><b style="display:block;margin-bottom:6px">O que cada figura quer dizer</b>';
+  let h='<div class="legend"><span class="subt" style="--cs:#37474F"><span class="subn" style="--cs2:#3D4C54">4.1</span>O que cada figura quer dizer</span>';
   h+=pastilha("▲","#8E2B2B","o combinado");
   h+=pastilha("■","#7B2D8E","capa de aula");
   h+=pastilha("★","#D89E00","placar");
-  h+='<div style="margin-top:8px"><b style="display:block;margin-bottom:6px">Os degraus</b>';
+  h+='<div style="margin-top:8px"><span class="subt" style="--cs:#37474F"><span class="subn" style="--cs2:#3D4C54">4.2</span>Os degraus</span>';
   ESCADA_D.forEach(function(e){
     const d=Object.keys(DEGRAUS).filter(function(k){return DEGRAUS[k].cod===e.cod})[0];
     if(!d) return;
     h+=pastilha(e.cod==="D05"?"◆":"●",DEGRAUS[d].hex,e.cod+" "+e.nome);
   });
   h+='</div><div style="margin-top:8px">'+
+     '<span class="subt" style="--cs:#37474F"><span class="subn" style="--cs2:#3D4C54">4.3</span>Como a tela aparece na lista</span>'+
      '<span class="pcat" style="border-color:var(--ok);color:var(--ok)">✅ já respondida</span>'+
      '<span class="pcat" style="border-color:var(--cinza);color:var(--cinza)">🔒 ainda não liberada</span>'+
      '</div><div style="margin-top:6px">O losango ◆ marca a pergunta final de cada tema.</div></div>';
@@ -3286,6 +3376,8 @@ function voltarOnde(){
   iTela=VOLTAR_PARA; VOLTAR_PARA=null; tentAtual=tentAtual||1; render();
 }
 function pular(i){
+  if(i>=roteiro.length) i=roteiro.length-1;
+  if(i<0) i=0;
   const r=roteiro[i];
   if(i<iTela && r && r.t!=="pausa") VOLTAR_PARA=iTela;
   MODO_CONSULTA=false;
@@ -3509,6 +3601,8 @@ function n2(x){return x.toFixed(2).replace(".",",")}
 
 /* ==================== RENDER ==================== */
 function render(){
+  if(iTela>=roteiro.length) iTela=roteiro.length-1;
+  if(iTela<0) iTela=0;
   const r=roteiro[iTela];
   salvarProgresso();
   if(RENDER_ULT!==iTela){
@@ -3557,12 +3651,29 @@ function avisoSemMemoria(){
 function escolherAula(){
   const c=document.getElementById("caixaRet");
   let bt="";
+  const pR=lerProgresso(), regR=(pR&&pR.registro)||registro||{};
   AULAS.forEach(function(a){
     const its=roteiro.filter(function(x){return x.t==="perg"&&x.aula===a.id});
     if(!its.length) return;
-    const capa=roteiro.findIndex(function(x){return x.t==="capa"&&x.aula===a.id});
-    bt+='<button class="btn op2" onclick="irParaAula(\''+a.id+'\');fecharModal(\'modalRet\')">'+
-        a.nome+' · '+its.length+' perguntas</button>';
+    // aberta = já respondeu ao menos uma pergunta desta aula
+    let feitas=0, ac1=0;
+    its.forEach(function(x){
+      const k=x.qi+"_"+x.deg, r=regR[k];
+      if(r){ feitas++; if(r.ok&&r.tent===1) ac1++ }
+    });
+    const aberta=feitas>0;
+    const temDisc=BANCO.some(function(q){return q.aula===a.id&&q.disc});
+    const nota=its.length? Math.max(0,(ac1/its.length)*10) : 0;
+    bt+='<button class="btn op2 aulabt'+(aberta?"":" fechada")+'" '+
+        'onclick="irParaAula(\''+a.id+'\');fecharModal(\'modalRet\')">'+
+        '<span class="al-1"><span class="al-nome">'+a.nome+'</span>'+
+        (aberta?'':'<span class="al-cad">🔒</span>')+'</span>'+
+        '<span class="al-2">'+
+          '<span class="al-p">'+its.length+' perguntas</span>'+
+          (temDisc?'<span class="al-p">tem dissertativa</span>':'')+
+          '<span class="al-p">nota '+nota.toFixed(2).replace(".",",")+' de 10</span>'+
+          '<span class="al-p">'+feitas+' de '+its.length+' feitas</span>'+
+        '</span></button>';
   });
   c.innerHTML='<div class="gcab"><span class="yara">📚</span>'+
     '<span class="ynome" style="color:#2E6029">ESCOLHA A AULA</span></div>'+
@@ -3599,12 +3710,10 @@ function abrirRetomada(){
       : '<p class="ret-p">Encontrei <b>'+lidas+'</b> palavras do glossário lidas aqui, '+
         'mas nenhuma pergunta respondida.</p>')+
     '<div class="ret-ops">'+
-    (p? '<button class="btn op1" onclick="retomar();fecharModal(\'modalRet\')">1 · Continuar de onde parei</button>'+
-        '<button class="btn op2" onclick="reiniciarAula();fecharModal(\'modalRet\')">2 · Recomeçar '+nomeAula+'</button>'
+    (p? '<button class="btn op1" onclick="retomar();fecharModal(\'modalRet\')">1 · Continuar de onde parei</button>'
       : '')+
-    '<button class="btn op3" onclick="reiniciarTudo();fecharModal(\'modalRet\')">3 · Recomeçar da primeira aula</button>'+
-    '<button class="btn op5" onclick="escolherAula()">5 · Começar por outra aula</button>'+
-    '<button class="btn op4" onclick="comecarDoZero();fecharModal(\'modalRet\')">4 · '+
+    '<button class="btn op2" onclick="escolherAula()">2 · Escolher a aula que vai recomeçar</button>'+
+    '<button class="btn op4" onclick="comecarDoZero();fecharModal(\'modalRet\')">3 · '+
     (p&&p.estudante? 'Esse «'+p.estudante+'» não sou eu' : 'Não sou eu')+' · vou me identificar</button>'+
     '</div>';
   m.classList.add("abre");
@@ -3686,20 +3795,24 @@ function telaAbertura(){
   const nAulas=AULAS.filter(function(a){return BANCO.some(function(q){return q.aula===a.id})}).length;
   document.getElementById("palco").innerHTML=
   '<div class="card">'+
+  '<div class="secab" style="--cs:#4527A0;--csbg:#EFECF8"><span class="sect"><span class="secn">1</span>A revisão</span>'+
   '<h1>Revisão · 9º ano</h1>'+
   '<h2>3º bimestre · Unidade 01 · '+UNIDADE+'</h2>'+
   '<p>Esta revisão passa por <b>'+BANCO.length+' temas</b> da unidade, em <b>'+nAulas+' partes</b>. '+
   'Cada tema é quebrado em <b>'+quantos+'</b>, escolhidos pelo que aquele tema pede: '+nomes.join(" ")+'. '+
   'São <b>'+totalDoBanco()+' perguntas</b> no total.</p>'+
-  TXT_ORIGEM()+
-  '<div class="campo"><label>1 · Sua turma</label><div class="turmagrid">'+botoesTurma()+'</div></div>'+
-  '<div class="campo"><label for="inNum">2 · Seu número de chamada</label>'+
+  TXT_ORIGEM()+'</div>'+
+  '<div class="secab" style="--cs:#00695C;--csbg:#E7F2F0"><span class="sect"><span class="secn">2</span>Quem é você</span>'+
+  '<div class="campo"><label><span class="subn" style="--cs2:#0C7064">2.1</span>Sua turma</label><div class="turmagrid">'+botoesTurma()+'</div></div>'+
+  '<div class="campo"><label for="inNum"><span class="subn" style="--cs2:#0C7064">2.2</span>Seu número de chamada</label>'+
   '<input id="inNum" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" '+
   'placeholder="Ex.: 12" autocomplete="off" onwheel="this.blur()" '+
   'oninput="this.value=this.value.replace(/\\D/g,\'\').slice(0,2);nomeDigitado()"></div>'+
-  '<div class="campo"><label for="inNome">3 · Seu nome completo</label>'+
+  '<div class="campo"><label for="inNome"><span class="subn" style="--cs2:#0C7064">2.3</span>Seu nome completo</label><div class="dicanome">Escreva o nome e o sobrenome, como está na chamada. É assim que o professor confere o seu resultado.</div>'+
   '<input id="inNome" type="text" placeholder="Digite seu nome" autocomplete="off" oninput="nomeDigitado()"></div>'+
 
+  '</div>'+
+  '<div class="secab" style="--cs:#AD1457;--csbg:#FAEBF1"><span class="sect"><span class="secn">3</span>Como funciona</span>'+
   '<div class="cards">'+
   cardR("#7B2D8E","🧭","Como você anda","Só existe um caminho: o botão da barra de baixo. Voltar e refazer não dá, e a lista completa abre no fim.")+
   cardR("#F0C419","📶","Como cada tema é quebrado","Cada tema vira "+quantos+", um por degrau, e nem todo tema usa os mesmos. O degrau da tela aparece sempre no topo, em letra grande.")+
@@ -3707,10 +3820,11 @@ function telaAbertura(){
   cardR("#2E8C7A","💠","A ajuda do <span class=\'bitnome-card\'>BIT</span>","🤖 Oi, eu sou o <b class=\'bitnome-card\'>BIT</b>. Tenho três trilhas. A cada erro você precisa terminar uma delas, sempre diferente da anterior. As alternativas ficam travadas até você chegar ao fim da trilha.")+
   cardR("#2E5C8A","📖","As pastilhas","Toda palavra difícil tem pastilha, e ela abre em abas: você lê todas antes de fechar. A palavra principal da pergunta fica dourada e precisa ser lida ANTES de responder. A cada erro, o BIT libera até duas palavras novas para ler.")+
   cardR("#D32F2F","🏁","O placar","Ao fim de cada aula aparece o placar daquela aula, com os acertos por objetivo. No fim vem o placar completo, com o código de conferência.")+
-  '</div>'+
-  avisoSemMemoria()+
-  legendaPastilhas()+
-  cardPremiacao(null)+
+  '</div></div>'+
+  '<div class="secab" style="--cs:#37474F;--csbg:#ECEFF1"><span class="sect"><span class="secn">4</span>O que cada figura quer dizer</span>'+
+  legendaPastilhas()+'</div>'+
+  '<div class="secab" style="--cs:#5D4037;--csbg:#F2ECEA"><span class="sect"><span class="secn">5</span>Quando sai bala</span>'+
+  avisoSemMemoria()+cardPremiacao(null)+'</div>'+
   '<div id="chamada"></div></div>';
   marcarTurma();
 }
@@ -4144,10 +4258,17 @@ const MARGEM_ALVO = 4;
 const CACHE_PARES = {};
 /* ---- cada estudante vê uma combinação própria ---- */
 function semente(){
-  const base=(estudante||"")+"|"+(turma||"");
+  // nome + turma + numero de chamada · o numero garante diferenca mesmo
+  // quando dois estudantes digitam so o primeiro nome
+  const base=(estudante||"")+"|"+(turma||"")+"|"+(chamadaNum||"0");
   let h=2166136261;
   for(let i=0;i<base.length;i++){ h^=base.charCodeAt(i); h=Math.imul(h,16777619) }
-  return Math.abs(h);
+  h=Math.imul(h^(h>>>15),2246822507); h=Math.imul(h^(h>>>13),3266489909);
+  return Math.abs(h^(h>>>16));
+}
+/* o nome esta composto? usado so para avisar, nunca para travar */
+function nomeComposto(){
+  return String(estudante||"").trim().split(/\s+/).filter(function(x){return x.length>1}).length>=2;
 }
 function sequenciaDePares(deg,chave){
   if(CACHE_PARES[chave]) return CACHE_PARES[chave];
@@ -4508,6 +4629,24 @@ function textoMontado(q){
 }
 function voltarParte(i){ iTela=i; tentAtual=1; render() }
 let PARES_USADOS={}, TEMA_ULT=null;
+function mesmaFrase(a,b){
+  function n(t){ return String(t).replace(/<[^>]+>/g,"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase().replace(/[^a-z0-9 ]/g,"").trim() }
+  return n(a)===n(b);
+}
+function parSemRepetir(par,deg){
+  if(!par||!par.alts||par.alts.length!==2) return par;
+  if(!mesmaFrase(par.alts[0],par.alts[1])) return par;
+  // as duas sairam iguais: troca a errada por outra do banco que seja diferente
+  const cert=par.alts[par.cert], outra=par.alts[1-par.cert];
+  let nova=null;
+  (deg&&deg.no||[]).forEach(function(e){ if(!nova && !mesmaFrase(e,cert)) nova=e });
+  if(!nova) (deg&&deg.ok||[]).forEach(function(c){ if(!nova && !mesmaFrase(c,cert)) nova=c });
+  if(!nova) return par;
+  const alts = par.cert===0 ? [cert,nova] : [nova,cert];
+  return {alts:alts, cert:par.cert, afirma:par.afirma||null};
+}
 function parDaTentativa(deg,t,chave){
   const seq=sequenciaDePares(deg,chave||"x");
   // o ponto de partida muda de estudante para estudante
@@ -4556,9 +4695,9 @@ function telaPergunta(r){
   if(q.disc&&deg.partes){
     parAtual=parPartes(deg,r.qi+"_"+r.deg);
   } else if(r.deg==="d5"&&deg.ok&&deg.no){
-    parAtual=parDaTentativa(deg,tentAtual,r.qi+"_d5");   // banco próprio: não espelha a prova
+    parAtual=parSemRepetir(parDaTentativa(deg,tentAtual,r.qi+"_d5"),deg);
   } else {
-    parAtual=(r.deg==="d5")?parOficialVF(deg,tentAtual,r.qi):parDaTentativa(deg,tentAtual,r.qi+"_"+r.deg);
+    parAtual=parSemRepetir((r.deg==="d5")?parOficialVF(deg,tentAtual,r.qi):parDaTentativa(deg,tentAtual,r.qi+"_"+r.deg),deg);
   }
 
   let h='<div class="card">';
@@ -4715,7 +4854,23 @@ function contextoEmDuas(ctx){
   h+='<div class="col-lat">'+
      '<div class="cardlat cl-dica"><div class="cl-t">💡 Dica</div><div class="cl-c">'+
        ((r.deg==="d5"&&q.d5.dica)?q.d5.dica:d.dica)+'</div></div>'+
-     '<div class="cardlat cl-glos"><div class="cl-t">📘 Glossário</div>'+
+     '<div class="cardlat cl-glos"><div class="cl-t">📘 Glossário</div><div class="cl-c">'+
+     (function(){
+       const gr={cmd:{rot:"comandos",cor:"#FFAB19",l:[]},
+                 conc:{rot:"conceitos",cor:"#2E5C8A",l:[]},
+                 enun:{rot:"palavras do texto",cor:"#2E6029",l:[]}};
+       (q.glossario||[]).forEach(function(g,i){
+         const tp=tipoDoTermo(g.t,q);
+         gr[tp.k].l.push('<button type="button" class="tchip t-'+tp.k+
+           '" onclick="abrirG('+BANCO.indexOf(q)+','+i+')">'+g.t+'</button>');
+       });
+       return ["cmd","conc","enun"].map(function(k){
+         if(!gr[k].l.length) return "";
+         return '<div class="glosgrupo"><div class="gg-t" style="border-color:'+gr[k].cor+
+                ';color:'+gr[k].cor+'">'+gr[k].rot+'</div>'+
+                '<div class="gg-l">'+gr[k].l.join("")+'</div></div>';
+       }).join("");
+     })()+
      '<div class="legtipo"><span class="lt t-cmd">comando</span>'+
      '<span class="lt t-conc">conceito</span>'+
      '<span class="lt t-enun">palavra do texto</span></div>'+
@@ -4929,15 +5084,23 @@ function blocoAjuda(r){
              '<div class="luri-s">Leia um pedaço, espere liberar e toque em «próxima dica».</div>';
          })()+
         '<div class="abas abasaj">';
-  TRILHAS.forEach(function(t){
-    if(!T[t.id]) return;
+  // ordem fixa, da esquerda para a direita: a próxima é sempre a primeira ainda não lida
+  const disp=TRILHAS.filter(function(t){return !!T[t.id]});
+  let proxima=null;
+  disp.forEach(function(t){ if(!proxima && AJ.lidas.indexOf(t.id)<0) proxima=t.id });
+  disp.forEach(function(t){
     const on=(AJ.trilha===t.id);
     const lida=(AJ.lidas.indexOf(t.id)>=0);
     const qual=(AJ.quando&&AJ.quando[t.id])?(" na "+AJ.quando[t.id]+"ª"):"";
-    const faltando=(!lida && ajudaObrigatoria());
+    const liberada=(lida || t.id===proxima);
+    const faltando=(!lida && t.id===proxima && ajudaObrigatoria());
     h+='<button class="aba aj'+(on?" on":"")+(lida?" fim":"")+(faltando?" pede":"")+
-       '" title="'+t.t+(lida?(" · lida"+qual+" tentativa"):"")+'" onclick="abrirTrilha(\''+t.id+'\')">'+
-       t.r+(lida?(' ✓'+qual):'')+'</button>';
+       (liberada?"":" trancada")+'"'+
+       (liberada?'':' disabled')+
+       ' title="'+(lida?(t.t+" · lida"+qual+" tentativa")
+                      :(t.id===proxima?t.t:"Esta trilha abre depois que você terminar a anterior"))+'"'+
+       (liberada?(' onclick="abrirTrilha(\''+t.id+'\')"'):'')+'>'+
+       t.r+(lida?(' ✓'+qual):(liberada?'':' 🔒'))+'</button>';
   });
   h+='</div><div id="tr">'+(AJ.trilha?"":'<div class="vaziodica"><span class="vd-mao">👆</span>'+
         '<span class="pcena"><span class="pav chama">'+magiaDaVez().emo+'</span>'+
