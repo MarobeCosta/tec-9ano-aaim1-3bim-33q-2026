@@ -207,8 +207,8 @@ p{font-size:17px;line-height:1.55;margin-bottom:10px}
 .cardlat{max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;word-break:break-word}
 .cardlat pre,.cardlat code{white-space:pre-wrap;overflow-x:auto;max-width:100%}
 .cardlat .tchip{white-space:normal}
-background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 8px 30px rgba(107,75,156,.18);
-  border-top:4px solid}
+.cardlat{background:#fff;border-radius:18px;padding:20px 22px;
+  box-shadow:0 8px 30px rgba(107,75,156,.18);border-top:4px solid}
 .cardlat.cl-dica{border-top-color:#E07B2C}
 .cardlat.cl-glos{border-top-color:#C79A18}
 .cl-t{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
@@ -2338,7 +2338,7 @@ const MODO_TESTE = false;
 const UNIDADE = "Lógica de programação: primeiros passos com Python";
 const NO_PROV = "26.08.24=NAV.07-REV_AAIM_6-9ano_002_prov";
 const LINK_PROV = "https://claude.ai/chat/359c8b75-e4f4-42b6-a186-d0a41a8a9507";
-const VERSAO = "V.11.35";
+const VERSAO = "V.11.36";
 /* ---- selo de conferência · dificulta adulterar o placar ---- */
 function hashTexto(s){
   let h=5381;
@@ -3086,7 +3086,8 @@ function salvarProgresso(){
     localStorage.setItem(chaveProg(),JSON.stringify({
       estudante:estudante,turma:turma,chamada:chamadaNum,iTela:iTela,registro:registro,
       rodada:RODADA,saidas:saidasTC,quando:Date.now(),
-      inicio:horaInicio?horaInicio.getTime():Date.now()
+      inicio:horaInicio?horaInicio.getTime():Date.now(),
+      acum:tempoAcum+(tempoDesde?(Date.now()-tempoDesde):0)
     }));
   }catch(e){}
 }
@@ -3098,17 +3099,19 @@ function retomar(){
   const p=lerProgresso(); if(!p) return;
   estudante=p.estudante; turma=p.turma; chamadaNum=p.chamada||"";
   genero=generoDoNome(estudante); registro=p.registro||{};
-  tempoAcum=0; tempoDesde=Date.now();
+  tempoAcum=p.acum||0; tempoDesde=Date.now();
   // o roteiro pode ter mudado de tamanho entre versões: em vez de jogar
   // no fim, leva para a primeira pergunta que ele ainda não respondeu
-  if(p.iTela==null || p.iTela>=roteiro.length){
-    let alvo=-1;
-    for(let k=0;k<roteiro.length;k++){
-      const x=roteiro[k];
-      if(x.t==="perg" && !registro[x.n]){ alvo=k; break }
-    }
-    p.iTela = (alvo>=0) ? alvo : roteiro.length-1;
+  // continuar de onde parei = a primeira pergunta ainda nao respondida.
+  // a tela salva pode ser a seguinte a ultima resposta, e ai o estudante
+  // reclamava que nao voltava para onde estava.
+  let alvo=-1;
+  for(let k=0;k<roteiro.length;k++){
+    const x=roteiro[k];
+    if(x.t==="perg" && !registro[x.n]){ alvo=k; break }
   }
+  if(alvo>=0) p.iTela=alvo;
+  else if(p.iTela==null || p.iTela>=roteiro.length) p.iTela=roteiro.length-1;
   RODADA=p.rodada||1; saidasTC=p.saidas||0;
   horaInicio=new Date(p.inicio||Date.now());
   iTela=p.iTela||0; tentAtual=1;
@@ -5231,7 +5234,10 @@ function mostrarFatia(){
 }
 function proxFatia(){ AJ.pos=(AJ.ate!==undefined?AJ.ate:AJ.pos)+1; mostrarFatia() }
 function fimTrilha(){
+  if(AJ.fim) return;            // ja terminou: clique repetido nao faz nada
   AJ.fim=true;
+  const btF0=document.getElementById("btF");
+  if(btF0){ btF0.disabled=true; btF0.onclick=null }
   if(AJ.lidas.indexOf(AJ.trilha)<0){
     AJ.lidas.push(AJ.trilha);
     AJ.quando=AJ.quando||{}; AJ.quando[AJ.trilha]=tentAtual;
@@ -5260,7 +5266,7 @@ function fimTrilha(){
   }
   const t=document.querySelector(".travaj"); if(t) t.remove();
   const tr=document.getElementById("tr");
-  if(tr && !tr.querySelector(".fatia.ok")) tr.insertAdjacentHTML("beforeend",
+  if(tr && !document.querySelector(".fatia.ok")) tr.insertAdjacentHTML("beforeend",
     '<div class="fatia ok">✅ Trilha lida. Para responder ainda falta '+
     (exigenciaAtual(BANCO[roteiro[iTela].qi],roteiro[iTela]).termos.length
       ? 'ler a palavra que a '+elencoDaTela().guarda.nome+' pediu, logo abaixo das alternativas.'
